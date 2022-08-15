@@ -639,9 +639,16 @@ class OrdersTableDataStore extends \Abstract_WC_Order_Data_Store_CPT implements 
 		return absint( $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$orders_table} WHERE type = %s AND status = %s", 'shop_order', $status ) ) ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 	}
 
+	/**
+	 * Get all orders matching the passed in args.
+	 *
+	 * @deprecated 3.1.0 - Use {@see wc_get_orders} instead.
+	 * @param  array $args List of args passed to wc_get_orders().
+	 * @return array|object
+	 */
 	public function get_orders( $args = array() ) {
-		// TODO: Implement get_orders() method.
-		return array();
+		wc_deprecated_function( __FUNCTION__, '3.1.0', 'Use wc_get_orders instead.' );
+		return wc_get_orders( $args );
 	}
 
 	/**
