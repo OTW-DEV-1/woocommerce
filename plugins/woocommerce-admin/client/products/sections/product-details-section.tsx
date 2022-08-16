@@ -4,7 +4,7 @@
 import { CheckboxControl, TextControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { EnrichedLabel, useFormContext } from '@woocommerce/components';
-import { Product } from '@woocommerce/data';
+import { Product, ProductCategory } from '@woocommerce/data';
 import classnames from 'classnames';
 import { recordEvent } from '@woocommerce/tracks';
 
@@ -12,6 +12,7 @@ import { recordEvent } from '@woocommerce/tracks';
  * Internal dependencies
  */
 import { ProductSectionLayout } from '../layout/product-section-layout';
+import { CategoryField } from '../fields/category-field';
 
 const PRODUCT_DETAILS_SLUG = 'product-details';
 
@@ -66,6 +67,12 @@ export const ProductDetailsSection: React.FC = () => {
 				name={ `${ PRODUCT_DETAILS_SLUG }-name` }
 				placeholder={ __( 'e.g. 12 oz Coffee Mug', 'woocommerce' ) }
 				{ ...getTextControlProps( 'name' ) }
+			/>
+			<CategoryField
+				label={ __( 'Categories', 'woocommerce' ) }
+				{ ...getInputProps< Pick< ProductCategory, 'id' | 'name' >[] >(
+					'categories'
+				) }
 			/>
 			<CheckboxControl
 				label={
