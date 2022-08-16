@@ -5,53 +5,18 @@ import { CheckboxControl, TextControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { EnrichedLabel, useFormContext } from '@woocommerce/components';
 import { Product } from '@woocommerce/data';
-import classnames from 'classnames';
 import { recordEvent } from '@woocommerce/tracks';
 
 /**
  * Internal dependencies
  */
 import { ProductSectionLayout } from '../layout/product-section-layout';
+import { getCheckboxProps, getTextControlProps } from './utils';
 
 const PRODUCT_DETAILS_SLUG = 'product-details';
 
 export const ProductDetailsSection: React.FC = () => {
 	const { getInputProps } = useFormContext< Product >();
-	const getCheckboxProps = ( item: string ) => {
-		const { checked, className, onChange, onBlur } =
-			getInputProps< boolean >( item );
-		return {
-			checked,
-			className: classnames(
-				'woocommerce-add-product__checkbox',
-				className
-			),
-			onChange: ( isChecked: boolean ) => {
-				recordEvent( `add_product_checkbox_${ item }`, {
-					checked: isChecked,
-				} );
-				return onChange( isChecked );
-			},
-			onBlur,
-		};
-	};
-	const getTextControlProps = ( item: string ) => {
-		const {
-			className,
-			onBlur,
-			onChange,
-			value = '',
-		} = getInputProps< string >( item );
-		return {
-			value,
-			className: classnames(
-				'woocommerce-add-product__checkbox',
-				className
-			),
-			onChange,
-			onBlur,
-		};
-	};
 
 	return (
 		<ProductSectionLayout
@@ -65,7 +30,7 @@ export const ProductDetailsSection: React.FC = () => {
 				label={ __( 'Name', 'woocommerce' ) }
 				name={ `${ PRODUCT_DETAILS_SLUG }-name` }
 				placeholder={ __( 'e.g. 12 oz Coffee Mug', 'woocommerce' ) }
-				{ ...getTextControlProps( 'name' ) }
+				{ ...getTextControlProps( getInputProps( 'name' ) ) }
 			/>
 			<CheckboxControl
 				label={
@@ -83,7 +48,10 @@ export const ProductDetailsSection: React.FC = () => {
 						}
 					/>
 				}
-				{ ...getCheckboxProps( 'featured' ) }
+				{ ...getCheckboxProps( {
+					...getInputProps( 'featured' ),
+					name: 'featured',
+				} ) }
 			/>
 		</ProductSectionLayout>
 	);

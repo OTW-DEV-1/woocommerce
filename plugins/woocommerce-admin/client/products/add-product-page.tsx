@@ -12,6 +12,7 @@ import { Product } from '@woocommerce/data';
 import { ProductFormLayout } from './layout/product-form-layout';
 import { ProductFormActions } from './product-form-actions';
 import { ProductDetailsSection } from './sections/product-details-section';
+import { PricingSection } from './sections/pricing-section';
 import { ProductImagesSection } from './sections/product-images-section';
 import './product-page.scss';
 
@@ -25,7 +26,7 @@ const AddProductPage: React.FC = () => {
 			<Form< Partial< Product > > initialValues={ {} } errors={ {} }>
 				<ProductFormLayout>
 					<ProductDetailsSection />
-
+					<PricingSection />
 					<ProductFormActions />
 				</ProductFormLayout>
 			</Form>
