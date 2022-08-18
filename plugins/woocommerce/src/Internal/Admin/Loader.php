@@ -77,7 +77,6 @@ class Loader {
 		add_action( 'in_admin_header', array( __CLASS__, 'embed_page_header' ) );
 		add_action( 'admin_head', array( __CLASS__, 'remove_notices' ) );
 		add_action( 'admin_head', array( __CLASS__, 'smart_app_banner' ) );
-		add_action( 'admin_notices', array( __CLASS__, 'inject_before_notices' ), -9999 );
 		add_action( 'admin_notices', array( __CLASS__, 'inject_after_notices' ), PHP_INT_MAX );
 
 		// Added this hook to delete the field woocommerce_onboarding_homepage_post_id when deleting the homepage.
@@ -219,26 +218,6 @@ class Loader {
 		// Hello Dolly.
 		if ( function_exists( 'hello_dolly' ) ) {
 			remove_action( 'admin_notices', 'hello_dolly' );
-		}
-	}
-
-	/**
-	 * Runs before admin notices action and hides them.
-	 */
-	public static function inject_before_notices() {
-		if ( ! PageController::is_admin_or_embed_page() ) {
-			return;
-		}
-
-		// Wrap the notices in a hidden div to prevent flickering before
-		// they are moved elsewhere in the page by WordPress Core.
-		echo '<div class="woocommerce-layout__notice-list-hide" id="wp__notice-list">';
-
-		if ( PageController::is_admin_page() ) {
-			// Capture all notices and hide them. WordPress Core looks for
-			// `.wp-header-end` and appends notices after it if found.
-			// https://github.com/WordPress/WordPress/blob/f6a37e7d39e2534d05b9e542045174498edfe536/wp-admin/js/common.js#L737 .
-			echo '<div class="wp-header-end" id="woocommerce-layout__notice-catcher"></div>';
 		}
 	}
 
